@@ -338,12 +338,22 @@ p {
 }
 .floating-header {
   position: fixed;
-  z-index: 100;
-  top: 18px;
+  z-index: 1000;
+  top: 0;
   width: 100%;
-  padding-inline: 20px;
+  padding: 18px 20px 12px;
   pointer-events: none;
   isolation: isolate;
+}
+.floating-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #1e211e66;
+  -webkit-backdrop-filter: blur(18px) saturate(1.05);
+  backdrop-filter: blur(18px) saturate(1.05);
+  border-bottom: 1px solid #ffffff30;
 }
 .floating-header .nav-pill {
   pointer-events: auto;
@@ -361,7 +371,7 @@ p {
   border: 1px solid #ffffff25;
   border-radius: 100px;
   color: #fff;
-  background: #1e211ed9;
+  background: #1e211ef2;
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
   backdrop-filter: blur(16px) saturate(1.1);
   box-shadow:
@@ -1301,7 +1311,7 @@ p {
     height: 195px;
   }
   .floating-header {
-    top: 22px;
+    top: 0;
   }
   .nav-pill {
     gap: 21px;
