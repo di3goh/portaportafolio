@@ -46,6 +46,7 @@ const images = [
   ["src/assets/reporta.png", "reporta", 1600],
   ["src/assets/miskipop.png", "miskipop", 1600],
   ["src/assets/centrojoyero.png", "centrojoyero", 1600],
+  ["src/assets/am-code.png", "am-code", 1600],
 ];
 
 await mkdir(outputDirectory, { recursive: true });

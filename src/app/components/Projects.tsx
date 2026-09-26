@@ -96,7 +96,7 @@ export function WebProjects({ onSelect }: ProjectAction) {
     >
       <div className="web-layout content-width">
         <div className="section-intro reveal">
-          <span className="eyebrow">Trabajo seleccionado · 01 — 10</span>
+          <span className="eyebrow">Trabajo seleccionado · 01 — 11</span>
           <h2 id="projects-title">
             Cada proyecto,
             <br />
@@ -138,7 +138,7 @@ export function WebProjects({ onSelect }: ProjectAction) {
           aria-label="Proyectos de diseño web"
           tabIndex={0}
         >
-          {projects.slice(0, 10).map((project) => (
+          {projects.slice(0, 11).map((project) => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -159,7 +159,7 @@ export function MobileProjects({ onSelect }: ProjectAction) {
       aria-labelledby="mobile-title"
     >
       <div className="section-heading centered reveal">
-        <span className="eyebrow">Experiencias móviles · 11 — 13</span>
+        <span className="eyebrow">Experiencias móviles · 12 — 14</span>
         <h2 id="mobile-title">
           Diseño para lo
           <br />
@@ -172,7 +172,7 @@ export function MobileProjects({ onSelect }: ProjectAction) {
         </p>
       </div>
       <div className="mobile-project-grid">
-        {projects.slice(10).map((project) => (
+        {projects.slice(11).map((project) => (
           <ProjectCard
             key={project.id}
             project={project}

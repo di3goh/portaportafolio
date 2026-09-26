@@ -337,11 +337,15 @@ p {
   transform: translateY(4px);
 }
 .floating-header {
-  position: absolute;
-  z-index: 10;
-  top: 26px;
+  position: fixed;
+  z-index: 100;
+  top: 18px;
   width: 100%;
   padding-inline: 20px;
+  pointer-events: none;
+}
+.floating-header .nav-pill {
+  pointer-events: auto;
 }
 .nav-pill {
   width: fit-content;

@@ -13,6 +13,7 @@ import pilotsImage from "../../assets/optimized/twenty-one-pilots-new.webp";
 import reportaImage from "../../assets/optimized/reporta.webp";
 import miskipopImage from "../../assets/optimized/miskipop.webp";
 import centrojoyeroImage from "../../assets/optimized/centrojoyero.webp";
+import amCodeImage from "../../assets/optimized/am-code.webp";
 
 // Change the image imports here to replace the photographs without changing the layout.
 export const profile = {
@@ -146,6 +147,19 @@ export const projects: Project[] = [
     image: centrojoyeroImage,
     alt: "Sitio web de Centro Joyero presentado en un portátil",
     url: "https://centrojoyero.com.pe",
+  },
+  {
+    id: "am-code",
+    name: "Web A.M. CODE",
+    category: "Desarrollo web",
+    role: "Diseño web",
+    type: "Sitio web",
+    summary:
+      "La web de una empresa creada para convertir ideas en sitios que venden.",
+    description:
+      "Sitio web de A.M. CODE para presentar sus servicios de desarrollo web, mostrar proyectos entregados y comunicar una propuesta digital clara, rápida y orientada a resultados.",
+    image: amCodeImage,
+    alt: "Sitio web de A.M. CODE presentado en un portátil",
   },
   {
     id: "turquesa",
