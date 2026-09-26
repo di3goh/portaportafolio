@@ -66,7 +66,6 @@ function Hero({
         height="2933"
       />
       <div className="hero-shade" aria-hidden="true" />
-      <Navigation onAbout={onAbout} onHome={onHome} />
       <div className="hero-copy">
         <span className="hero-identity">
           <span />{" "}
@@ -589,6 +588,16 @@ export default function App() {
 
   return (
     <div className="site-frame">
+      <Navigation
+        onAbout={() => {
+          setAboutMode(true);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        onHome={() => {
+          setAboutMode(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      />
       <a className="skip-link" href="#main">
         Saltar al contenido
       </a>
