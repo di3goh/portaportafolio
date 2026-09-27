@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -22,6 +24,8 @@ import {
   technicalEducation,
   type Project,
 } from "./data/portfolio";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const principles = [
   {
@@ -567,6 +571,46 @@ function Footer({ onAbout }: { onAbout: () => void }) {
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [aboutMode, setAboutMode] = useState(false);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const handleInternalLink = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const link = target.closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!link) return;
+
+      const hash = link.getAttribute("href");
+      if (!hash || hash === "#") return;
+
+      const destination = document.querySelector(hash);
+      if (!destination) return;
+
+      event.preventDefault();
+      gsap.killTweensOf(window);
+
+      if (reduceMotion.matches) {
+        window.scrollTo({
+          top: destination.getBoundingClientRect().top + window.scrollY,
+        });
+        return;
+      }
+
+      gsap.to(window, {
+        duration: 1.15,
+        ease: "power3.out",
+        overwrite: "auto",
+        scrollTo: { y: destination, offsetY: 30 },
+      });
+    };
+
+    document.addEventListener("click", handleInternalLink, true);
+    return () =>
+      document.removeEventListener("click", handleInternalLink, true);
+  }, []);
+
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver(
@@ -591,11 +635,9 @@ export default function App() {
       <Navigation
         onAbout={() => {
           setAboutMode(true);
-          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
         onHome={() => {
           setAboutMode(false);
-          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       />
       <a className="skip-link" href="#main">
@@ -606,11 +648,9 @@ export default function App() {
           aboutMode={aboutMode}
           onAbout={() => {
             setAboutMode(true);
-            window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           onHome={() => {
             setAboutMode(false);
-            window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         />
         <Introduction />
@@ -622,7 +662,6 @@ export default function App() {
       <Footer
         onAbout={() => {
           setAboutMode(true);
-          window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       />
       <ProjectDialog
