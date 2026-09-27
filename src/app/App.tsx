@@ -14,6 +14,9 @@ import {
   ScanLine,
   Sparkles,
 } from "lucide-react";
+import coderhouseMark from "../assets/optimized/coderhouse-mark.webp";
+import googleMark from "../assets/optimized/google-mark.webp";
+import ibmMark from "../assets/optimized/ibm-mark.webp";
 import { Navigation } from "./components/Navigation";
 import {
   MobileProjects,
@@ -22,6 +25,7 @@ import {
 } from "./components/Projects";
 import {
   designEducation,
+  type EducationItem,
   profile,
   technicalEducation,
   type Project,
@@ -67,7 +71,7 @@ function Hero({
         className="hero-photograph"
         src={profile.heroImage}
         alt=""
-        fetchPriority="high"
+        fetchpriority="high"
         width="2200"
         height="2933"
       />
@@ -335,24 +339,24 @@ function IssuerMark({ school }: { school: string }) {
 
   if (issuer.includes("ibm")) {
     return (
-      <span className="issuer-mark issuer-ibm" aria-label="IBM">
-        IBM
+      <span className="issuer-mark issuer-ibm" aria-hidden="true">
+        <img src={ibmMark} alt="" />
       </span>
     );
   }
 
   if (issuer.includes("google")) {
     return (
-      <span className="issuer-mark issuer-google" aria-label="Google">
-        G
+      <span className="issuer-mark issuer-google" aria-hidden="true">
+        <img src={googleMark} alt="" />
       </span>
     );
   }
 
   if (issuer.includes("coderhouse")) {
     return (
-      <span className="issuer-mark issuer-coderhouse" aria-label="Coderhouse">
-        C
+      <span className="issuer-mark issuer-coderhouse" aria-hidden="true">
+        <img src={coderhouseMark} alt="" />
       </span>
     );
   }
@@ -364,17 +368,42 @@ function IssuerMark({ school }: { school: string }) {
   );
 }
 
-function EducationList({ items }: { items: typeof designEducation }) {
+function EducationList({ items }: { items: EducationItem[] }) {
   return (
     <ul className="learning-list">
       {items.map((item) => (
-        <li key={item.course}>
+        <li
+          className={
+            "certificateImage" in item ? "learning-featured" : undefined
+          }
+          key={item.course}
+        >
           <IssuerMark school={item.school} />
           <div className="learning-main">
             <h4>{item.course}</h4>
             <p>{item.school}</p>
           </div>
           <span className="learning-date">{item.date}</span>
+          {"certificateImage" in item && item.certificateImage && (
+            <a
+              className="certificate-preview"
+              href={item.certificateImage}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={item.certificateImage}
+                alt={`Vista previa del certificado ${item.course}`}
+                loading="lazy"
+              />
+              <span className="certificate-open-hint" aria-hidden="true">
+                <ArrowUpRight size={16} />
+              </span>
+              <span className="visually-hidden">
+                Abrir certificado en tamaño completo en otra pestaña
+              </span>
+            </a>
+          )}
         </li>
       ))}
     </ul>
@@ -614,14 +643,14 @@ export default function App() {
       }
 
       if (smoother) {
-        smoother.scrollTo(destination, 1.15, "top 30px");
+        smoother.scrollTo(destination, 1.15, "top 96px");
       } else {
         gsap.killTweensOf(window);
         gsap.to(window, {
           duration: 1.15,
           ease: "power3.out",
           overwrite: "auto",
-          scrollTo: { y: destination, offsetY: 30 },
+          scrollTo: { y: destination, offsetY: 96 },
         });
       }
     };
@@ -651,47 +680,49 @@ export default function App() {
   }, []);
 
   return (
-    <div id="smooth-wrapper">
-      <div id="smooth-content">
-        <div className="site-frame">
-          <Navigation
-            onAbout={() => {
-              setAboutMode(true);
-            }}
-            onHome={() => {
-              setAboutMode(false);
-            }}
-          />
-          <a className="skip-link" href="#main">
-            Saltar al contenido
-          </a>
-          <main id="main">
-            <Hero
-              aboutMode={aboutMode}
+    <>
+      <Navigation
+        onAbout={() => {
+          setAboutMode(true);
+        }}
+        onHome={() => {
+          setAboutMode(false);
+        }}
+      />
+      <a className="skip-link" href="#main">
+        Saltar al contenido
+      </a>
+      <div id="smooth-wrapper">
+        <div id="smooth-content">
+          <div className="site-frame">
+            <main id="main">
+              <Hero
+                aboutMode={aboutMode}
+                onAbout={() => {
+                  setAboutMode(true);
+                }}
+                onHome={() => {
+                  setAboutMode(false);
+                }}
+              />
+              <Introduction />
+              <WebProjects onSelect={setSelectedProject} />
+              <MobileProjects onSelect={setSelectedProject} />
+              <Experience />
+              <PersonalNote />
+            </main>
+            <Footer
               onAbout={() => {
                 setAboutMode(true);
               }}
-              onHome={() => {
-                setAboutMode(false);
-              }}
             />
-            <Introduction />
-            <WebProjects onSelect={setSelectedProject} />
-            <MobileProjects onSelect={setSelectedProject} />
-            <Experience />
-            <PersonalNote />
-          </main>
-          <Footer
-            onAbout={() => {
-              setAboutMode(true);
-            }}
-          />
-          <ProjectDialog
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
+          </div>
         </div>
       </div>
-    </div>
+      <ProjectDialog
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+    </>
   );
 }

@@ -14,6 +14,8 @@ import reportaImage from "../../assets/optimized/reporta.webp";
 import miskipopImage from "../../assets/optimized/miskipop.webp";
 import centrojoyeroImage from "../../assets/optimized/centrojoyero.webp";
 import amCodeImage from "../../assets/optimized/am-code.webp";
+import ibmUxUiCertificate from "../../assets/optimized/ibm-ux-ui-certificate.webp";
+import coderhouseUxUiCertificate from "../../assets/optimized/coderhouse-ux-ui-certificate.webp";
 
 // Change the image imports here to replace the photographs without changing the layout.
 export const profile = {
@@ -228,6 +230,12 @@ export const projects: Project[] = [
 export const designEducation = [
   {
     school: "IBM SkillsBuild",
+    course: "IBM UX/UI DESIGNER",
+    date: "Completado · Sep. 2026",
+    certificateImage: ibmUxUiCertificate,
+  },
+  {
+    school: "IBM SkillsBuild",
     course: "Introduction to UX/UI Design",
     date: "Completado · Sep. 2026",
   },
@@ -262,7 +270,8 @@ export const technicalEducation = [
   {
     school: "CODERHOUSE",
     course: "Diseño UX/UI Avanzado",
-    date: "Completado · Sep. 2026",
+    date: "Completado · Ago. 2026",
+    certificateImage: coderhouseUxUiCertificate,
   },
   {
     school: "Google",
@@ -275,3 +284,7 @@ export const technicalEducation = [
     date: "Ene. 2025",
   },
 ];
+
+export type EducationItem =
+  | (typeof designEducation)[number]
+  | (typeof technicalEducation)[number];

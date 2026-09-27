@@ -47,6 +47,15 @@ const images = [
   ["src/assets/miskipop.png", "miskipop", 1600],
   ["src/assets/centrojoyero.png", "centrojoyero", 1600],
   ["src/assets/am-code.png", "am-code", 1600],
+  ["src/assets/coderhouse-mark.png", "coderhouse-mark", 256],
+  ["src/assets/google-mark.png", "google-mark", 256],
+  ["src/assets/ibm-mark.png", "ibm-mark", 256],
+  ["src/assets/ibm-ux-ui-certificate.png", "ibm-ux-ui-certificate", 1200],
+  [
+    "src/assets/coderhouse-ux-ui-certificate.png",
+    "coderhouse-ux-ui-certificate",
+    1200,
+  ],
 ];
 
 await mkdir(outputDirectory, { recursive: true });
