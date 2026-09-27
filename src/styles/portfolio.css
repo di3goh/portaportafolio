@@ -22,6 +22,12 @@ html {
   scrollbar-gutter: stable;
   scroll-padding-top: 30px;
 }
+#smooth-wrapper {
+  overflow: hidden;
+}
+#smooth-content {
+  overflow: visible;
+}
 body {
   margin: 0;
   min-width: 320px;

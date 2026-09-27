@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -25,7 +27,7 @@ import {
   type Project,
 } from "./data/portfolio";
 
-gsap.registerPlugin(ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
 
 const principles = [
   {
@@ -574,6 +576,20 @@ export default function App() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) return;
+
+    const smoother = ScrollSmoother.create({
+      content: "#smooth-content",
+      effects: false,
+      smooth: 1.2,
+      wrapper: "#smooth-wrapper",
+    });
+
+    return () => smoother.kill();
+  }, []);
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const handleInternalLink = (event: MouseEvent) => {
       const target = event.target;
@@ -589,21 +605,25 @@ export default function App() {
       if (!destination) return;
 
       event.preventDefault();
-      gsap.killTweensOf(window);
+      const smoother = ScrollSmoother.get();
 
       if (reduceMotion.matches) {
-        window.scrollTo({
-          top: destination.getBoundingClientRect().top + window.scrollY,
-        });
+        smoother?.scrollTo(destination, false);
+        if (!smoother) window.scrollTo({ top: destination.offsetTop });
         return;
       }
 
-      gsap.to(window, {
-        duration: 1.15,
-        ease: "power3.out",
-        overwrite: "auto",
-        scrollTo: { y: destination, offsetY: 30 },
-      });
+      if (smoother) {
+        smoother.scrollTo(destination, 1.15, "top 30px");
+      } else {
+        gsap.killTweensOf(window);
+        gsap.to(window, {
+          duration: 1.15,
+          ease: "power3.out",
+          overwrite: "auto",
+          scrollTo: { y: destination, offsetY: 30 },
+        });
+      }
     };
 
     document.addEventListener("click", handleInternalLink, true);
@@ -631,43 +651,47 @@ export default function App() {
   }, []);
 
   return (
-    <div className="site-frame">
-      <Navigation
-        onAbout={() => {
-          setAboutMode(true);
-        }}
-        onHome={() => {
-          setAboutMode(false);
-        }}
-      />
-      <a className="skip-link" href="#main">
-        Saltar al contenido
-      </a>
-      <main id="main">
-        <Hero
-          aboutMode={aboutMode}
-          onAbout={() => {
-            setAboutMode(true);
-          }}
-          onHome={() => {
-            setAboutMode(false);
-          }}
-        />
-        <Introduction />
-        <WebProjects onSelect={setSelectedProject} />
-        <MobileProjects onSelect={setSelectedProject} />
-        <Experience />
-        <PersonalNote />
-      </main>
-      <Footer
-        onAbout={() => {
-          setAboutMode(true);
-        }}
-      />
-      <ProjectDialog
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <div className="site-frame">
+          <Navigation
+            onAbout={() => {
+              setAboutMode(true);
+            }}
+            onHome={() => {
+              setAboutMode(false);
+            }}
+          />
+          <a className="skip-link" href="#main">
+            Saltar al contenido
+          </a>
+          <main id="main">
+            <Hero
+              aboutMode={aboutMode}
+              onAbout={() => {
+                setAboutMode(true);
+              }}
+              onHome={() => {
+                setAboutMode(false);
+              }}
+            />
+            <Introduction />
+            <WebProjects onSelect={setSelectedProject} />
+            <MobileProjects onSelect={setSelectedProject} />
+            <Experience />
+            <PersonalNote />
+          </main>
+          <Footer
+            onAbout={() => {
+              setAboutMode(true);
+            }}
+          />
+          <ProjectDialog
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        </div>
+      </div>
     </div>
   );
 }
